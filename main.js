@@ -19,6 +19,8 @@ let mic, camera;
 // Empty array instance for other users that will join
 let remoteUsers = {}
 
+
+
 // Method to join stream and connect video and audio feed
 let joinAndDisplayLocalStream = async () => {
 
@@ -100,6 +102,7 @@ let joinAndDisplayLocalStream = async () => {
 // Used to join the stream
 let joinStream = async () => {
     await joinAndDisplayLocalStream()
+    Notification.requestPermission();
     document.getElementById('join-btn').style.display = 'none'
     document.getElementById('stream-controls').style.display = 'flex'
 }
@@ -172,14 +175,16 @@ let toggleCamera = async (e) => {
     }
 }
 
+const threshold = 3;
+
 // Outputs the Face Mesh feed from Camera
 function onResultsFaceMesh(results) {
     fpsControl.tick();
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, out.width, out.height);
-    canvasCtx.drawImage(
-        results.image, 0, 0, out.width, out.height);
+    canvasCtx.drawImage(results.image, 0, 0, out.width, out.height);
     if (results.multiFaceLandmarks) {
+        timer = 0;
         for (const landmarks of results.multiFaceLandmarks) {
         drawConnectors(
             canvasCtx, landmarks, FACEMESH_RIGHT_EYE,
@@ -187,6 +192,15 @@ function onResultsFaceMesh(results) {
         drawConnectors(
             canvasCtx, landmarks, FACEMESH_LEFT_EYE,
             {color: '#30FF30'});
+        }
+    } else {
+        if(!timer){
+            const currentTime = new Date();
+            currentTime.setSeconds(currentTime.getSeconds() + threshold);
+            timer = currentTime;
+        } else if((new Date).toTimeString() == timer.toTimeString()) {
+            new Notification("MAY TANGANG DI NAKATINGIN");
+            timer = 0;
         }
     }
     canvasCtx.restore();
@@ -197,17 +211,11 @@ var today = new Date()
 var dd = today.getDate()
 var mm = today.getMonth()+1
 var yyyy = today.getFullYear()
-if (dd < 10){
-    dd = '0' + dd
-}
-if (mm < 10){
-    mm = '0' + mm
-}
-
+if (dd < 10){ dd = '0' + dd } 
+if (mm < 10){ mm = '0' + mm }
 var hh = today.getHours()
 var min = today.getMinutes()
 var ss = today.getSeconds()
-
 date = mm+'-'+dd+'-'+yyyy
 time = hh+'-'+min+'-'+ss
 
