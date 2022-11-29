@@ -6,6 +6,7 @@
     <title>VidCon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.1/camera_utils.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils@0.1/control_utils.js" crossorigin="anonymous"></script>
@@ -29,46 +30,7 @@
             </div>
         </div>
 
-        <script>
-            var today = new Date()
-            var dd = today.getDate()
-            var mm = today.getMonth()+1
-            var yyyy = today.getFullYear()
-            if (dd < 10){
-                dd = '0' + dd
-            }
-            if (mm < 10){
-                mm = '0' + mm
-            }
-
-            var hh = today.getHours()
-            var min = today.getMinutes()
-            var ss = today.getSeconds()
-
-            date = mm+'-'+dd+'-'+yyyy
-            time = hh+'-'+min+'-'+ss
-
-            const srcElement = document.getElementById("stream-wrapper"),
-            btns = document.querySelectorAll("button");
-            btns.forEach(btn => { // looping through each btn
-                // adding click event to each btn
-                btn.addEventListener("click", () => {
-                    // creating canvas of element using html2canvas
-                    html2canvas(srcElement).then(canvas => {
-                    // adding canvas/screenshot to the body
-                    if(btn.id === "screenshot-btn") {
-                        const a = document.createElement("a");
-                        a.href = canvas.toDataURL();
-                        a.download = date + '-' + time + ".jpg";
-                        a.click();
-                    }
-                    });
-                });
-            });
-        </script>
         <div class="control" style="visibility: hidden;"></div>
 </body>
-<script src="https://download.agora.io/sdk/release/AgoraRTC_N.js"></script>
 <script src="main.js"></script>
-<script src="webgazer.js"></script>
 </html>
