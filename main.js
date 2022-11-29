@@ -19,8 +19,6 @@ let mic, camera;
 // Empty array instance for other users that will join
 let remoteUsers = {}
 
-
-
 // Method to join stream and connect video and audio feed
 let joinAndDisplayLocalStream = async () => {
 
@@ -105,6 +103,7 @@ let joinStream = async () => {
     Notification.requestPermission();
     document.getElementById('join-btn').style.display = 'none'
     document.getElementById('stream-controls').style.display = 'flex'
+    document.getElementById('selfie-cam').style.display = 'block'
 }
 
 // Method for remote users
@@ -149,6 +148,7 @@ let leaveAndRemoveLocalStream = async () => {
     document.getElementById('join-btn').style.display = 'block'
     document.getElementById('stream-controls').style.display = 'none'
     document.getElementById('video-streams').innerHTML = ''
+    document.getElementById('selfie-cam').style.display = 'none'
 }
 
 let toggleMic = async (e) => {
@@ -199,7 +199,7 @@ function onResultsFaceMesh(results) {
             currentTime.setSeconds(currentTime.getSeconds() + threshold);
             timer = currentTime;
         } else if((new Date).toTimeString() == timer.toTimeString()) {
-            new Notification("MAY TANGANG DI NAKATINGIN");
+            new Notification("A student is not paying attention.");
             timer = 0;
         }
     }
